@@ -16,7 +16,7 @@ provider "aws" {
 }
 #nrew line dddfffsdssdfffeeeefffgggggggggg
 resource "aws_vpc" "main" {
-  cidr_block       = "192.168.0.0/23"
+  cidr_block       = "192.168.0.0/22"
   instance_tenancy = "default"
   tags = {
     Name = "main"
