@@ -14,9 +14,9 @@ provider "aws" {
 provider "aws" {
   region = "us-east-2"
 }
-#nrew line dddfffsdssdfffeeee
+#nrew line dddfffsdssdfffeeeefffgggggggggg
 resource "aws_vpc" "main" {
-  cidr_block       = "192.168.0.0/24"
+  cidr_block       = "192.168.0.0/23"
   instance_tenancy = "default"
   tags = {
     Name = "main"
