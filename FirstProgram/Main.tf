@@ -8,10 +8,10 @@ terraform {
 }
 
 #new line added something new kjbvibsifvbkjsgdfgdghtr
-provider "aws" {
+provider "azure" {
   region = "us-east-1"
 }
-provider "aws" {
+provider "azure" {
   region = "us-east-2"
 }
 #nrew line dddfffsdssdfffeeeefffgggggggggg
