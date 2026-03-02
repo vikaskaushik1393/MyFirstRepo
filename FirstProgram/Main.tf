@@ -22,3 +22,7 @@ resource "aws_vpc" "main" {
     Name = "main"
   }
 }
+resource "azurerm_resource_group" "exa" {
+  name     = "example-resource-group"
+  location = "eastus"
+}
