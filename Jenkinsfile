@@ -11,7 +11,7 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                dir('.') {
+                dir('FirstProgram') {
                     bat 'terraform init'
                 }
             }
@@ -19,7 +19,7 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                dir('.') {
+                dir('FirstProgram') {
                     bat 'terraform plan'
                 }
             }
