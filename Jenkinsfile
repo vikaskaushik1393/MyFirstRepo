@@ -35,10 +35,10 @@ pipeline {
                 }
             }
         }
-                  stage('Terraform Destory') {
+                  stage('Terraform Destroy') {
             steps {
                 dir('FirstProgram') {
-                    bat 'terraform destory -auto-approve'
+                    bat 'terraform destroy -auto-approve'
                 }
             }
         }
