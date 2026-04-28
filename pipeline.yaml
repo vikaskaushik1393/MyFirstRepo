@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: sip-gui-api-pipeline
+  namespace: tekton-pipelines
+spec:
+  tasks:
+    - name: sip
+      taskRef:
+        name: sip-task
+
+    - name: gui
+      taskRef:
+        name: gui-task
+
+    - name: api
+      taskRef:
+        name: api-task
