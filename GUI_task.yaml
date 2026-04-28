@@ -1,0 +1,14 @@
+apiVersion: tekton.dev/v1
+kind: Task
+metadata:
+  name: gui-task
+  namespace: tekton-pipelines
+spec:
+  steps:
+    - name: gui-step
+      image: alpine/git:latest
+      imagePullPolicy: IfNotPresent
+      script: |
+        echo "🚀 Running GUI job..."
+        sleep 5
+        echo "✅ GUI completed"
