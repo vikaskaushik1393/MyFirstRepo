@@ -68,41 +68,55 @@
 // }
 
 pipeline {
-  agent any
+    agent any
 
-  stages {
+    stages {
 
-    stage('SCM - Clone Code') {
-      steps {
-        echo 'Cloning repository from GitHub'
-      }
+        stage('SCM - Checkout Code') {
+            steps {
+                echo 'Cloning code from GitHub...'
+                git 'https://github.com/kaushik-industry/MyFirstRepo'
+            }
+        }
+
+        stage('Pre-check') {
+            steps {
+                echo 'Validating YAML files...'
+                bat 'dir'
+            }
+        }
+
+        stage('Deploy Tekton Pipeline') {
+            steps {
+                echo 'Applying Tekton Tasks & Pipeline...'
+                bat 'kubectl apply -f SIP_task.yaml'
+                bat 'kubectl apply -f GUI_task.yaml'
+                bat 'kubectl apply -f API_task.yaml'
+                bat 'kubectl apply -f pipeline.yaml'
+            }
+        }
+
+        stage('Trigger Tekton PipelineRun') {
+            steps {
+                echo 'Deleting old PipelineRun (if exists)...'
+                bat 'kubectl delete pipelinerun sip-gui-api-run --ignore-not-found'
+
+                echo 'Creating new PipelineRun...'
+                bat 'kubectl create -f pipelinerun.yaml'
+            }
+        }
+
+        stage('Verify Execution in Kubernetes') {
+            steps {
+                echo 'Checking Pods created by Tekton...'
+                bat 'kubectl get pods -n tekton-pipelines'
+            }
+        }
+
+        stage('Pipeline Completed') {
+            steps {
+                echo 'SUCCESS: Jenkins → Tekton → Kubernetes flow completed'
+            }
+        }
     }
-
-    stage('Pre-check') {
-      steps {
-        echo 'Validating YAML files'
-        bat 'dir'
-      }
-    }
-
-    stage('Trigger Tekton Pipeline') {
-      steps {
-        echo 'Triggering Tekton Pipeline in Kubernetes'
-        bat 'kubectl create -f pipelinerun.yaml'
-      }
-    }
-
-    stage('Verify Pods') {
-      steps {
-        echo 'Checking Kubernetes Pods'
-        bat 'kubectl get pods -n tekton-pipelines'
-      }
-    }
-
-    stage('Pipeline Completed') {
-      steps {
-        echo 'Tekton Pipeline executed successfully'
-      }
-    }
-  }
 }
