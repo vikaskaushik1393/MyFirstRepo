@@ -74,21 +74,21 @@ pipeline {
 
         stage('SCM - Checkout Code') {
             steps {
-                echo 'Cloning code from GitHub...'
                 git 'https://github.com/kaushik-industry/MyFirstRepo'
             }
         }
 
         stage('Pre-check') {
             steps {
-                echo 'Validating YAML files...'
+                echo 'Checking files...'
                 bat 'dir'
             }
         }
 
         stage('Deploy Tekton Pipeline') {
             steps {
-                echo 'Applying Tekton Tasks & Pipeline...'
+                echo 'Applying Tekton Tasks & Pipeline'
+
                 bat 'kubectl apply -f SIP_task.yaml'
                 bat 'kubectl apply -f GUI_task.yaml'
                 bat 'kubectl apply -f API_task.yaml'
@@ -96,26 +96,20 @@ pipeline {
             }
         }
 
-        stage('Trigger Tekton PipelineRun') {
+        stage('Trigger Tekton Pipeline') {
             steps {
-                echo 'Deleting old PipelineRun (if exists)...'
+                echo 'Triggering Tekton Pipeline'
+
                 bat 'kubectl delete pipelinerun sip-gui-api-run --ignore-not-found'
-
-                echo 'Creating new PipelineRun...'
-                bat 'kubectl create -f pipelinerun.yaml'
+                bat 'kubectl apply -f pipelinerun.yaml'
             }
         }
 
-        stage('Verify Execution in Kubernetes') {
+        stage('Verify Pods') {
             steps {
-                echo 'Checking Pods created by Tekton...'
+                echo 'Checking Pods'
+
                 bat 'kubectl get pods -n tekton-pipelines'
-            }
-        }
-
-        stage('Pipeline Completed') {
-            steps {
-                echo 'SUCCESS: Jenkins → Tekton → Kubernetes flow completed'
             }
         }
     }
