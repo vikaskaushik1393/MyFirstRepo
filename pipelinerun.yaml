@@ -1,0 +1,8 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: sip-gui-api-run
+  namespace: tekton-pipelines
+spec:
+  pipelineRef:
+    name: sip-gui-api-pipeline
