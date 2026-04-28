@@ -71,12 +71,6 @@ pipeline {
   agent any
 
   stages {
-    stage('Clone Repo') {
-      steps {
-        git 'https://github.com/kaushik-industry/MyFirstRepo'
-      }
-    }
-
     stage('Run Tekton Pipeline') {
       steps {
         bat 'kubectl apply -f pipelinerun.yaml'
